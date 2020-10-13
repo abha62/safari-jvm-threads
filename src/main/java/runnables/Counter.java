@@ -7,7 +7,10 @@ public class Counter {
     Runnable r = () -> {
       for (int i = 0; i < 10_000_000; i++) {
         synchronized (Counter.class) {
+          // wait releases lock, and subsequently reacquires it.. (create HB relationships :)
+          // Counter.class.wait(); // pauses until "later" -- when someone else calls notify ON SAME OBJECT
           count++;
+          // Counter.class.notify();
         }
       }
       System.out.println("Worker finished");
